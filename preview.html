@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Preview</title>
+</head>
+<body>
+    
+</body>
+</html><form id="frm" action="/upload.php" method="post" enctype="multipart/form-data">
+  <input type="file" id="file" name="file" accept="image/*">
+  <div id="preview"></div>
+  <button type="submit">Upload</button>
+</form>
+
+<script>
+document.getElementById('file').addEventListener('change', e => {
+  const preview = document.getElementById('preview');
+  preview.innerHTML = '';
+  const file = e.target.files[0];
+  if (!file) return;
+  if (!file.type.startsWith('image/')) {
+    preview.textContent = 'Selected file is not an image.';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = () => {
+    const img = document.createElement('img');
+    img.src = reader.result;
+    img.style.maxWidth = '200px';
+    img.style.maxHeight = '200px';
+    preview.appendChild(img);
+  };
+  reader.readAsDataURL(file);
+});
+</script>
